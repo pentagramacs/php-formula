@@ -47,7 +47,7 @@ php_ppa_{{ state }}:
     - onchanges:
       - pkgrepo: php_ppa_{{ state }}
 
-php_{{ phpng_version }}_link:
+php_{{ phpng_version }}_link_{{ state }}:
   alternatives.set:
     - name: php
     - path: /usr/bin/php{{ phpng_version }}
