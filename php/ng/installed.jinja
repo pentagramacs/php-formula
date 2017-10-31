@@ -44,6 +44,7 @@ php_ppa_{{ state }}:
     - refresh: True
     - onchanges:
       - pkgrepo: php_ppa_{{ state }}
+
     {% else %}
       {% set external_repo_name = salt['pillar.get']('php:external_repo_name', 'packages.sury.org/php' ) %}
 php_repo_{{ state }}:
