@@ -65,6 +65,7 @@
                             'suhosin5_repo': 'https://github.com/sektioneins/suhosin',
                             'suhosin7_ext': 'suhosin7.so',
                             'suhosin7_repo': 'https://github.com/sektioneins/suhosin7',
+                            'sybase': 'php' + phpng_version + '-sybase',
                             'tcpdf': 'php-tcpdf',
                             'temp_dir': '/tmp',
                             'tidy': 'php' + phpng_version + '-tidy',
@@ -375,6 +376,7 @@
                             'php': 'php' + phpng_version,
                             'phpenmod_command': 'phpenmod -v' + phpng_version,
                             'pspell': 'php' + phpng_version + '-pspell',
+                            'readline': 'php' + phpng_version + '-readline',
                             'redis': 'php' + phpng_version + '-redis',
                             'seclib': 'php-seclib',
                             'snmp': 'php' + phpng_version + '-snmp',
@@ -385,6 +387,7 @@
                             'suhosin5_repo': 'https://github.com/sektioneins/suhosin',
                             'suhosin7_ext': 'suhosin7.so',
                             'suhosin7_repo': 'https://github.com/sektioneins/suhosin7',
+                            'sybase': 'php' + phpng_version + '-sybase',
                             'tcpdf': 'php-tcpdf',
                             'temp_dir': '/tmp',
                             'tidy': 'php' + phpng_version + '-tidy',
@@ -697,6 +700,7 @@
                             'sqlite': 'php-sqlite3',
                             'ssh2': 'php-ssh2',
                             'suhosin': 'php',
+                            'sybase': 'php-sybase',
                             'tcpdf': 'php-tcpdf',
                             'tidy': 'php7.0-tidy',
                             'xcache': 'php',
@@ -1400,6 +1404,11 @@
     {%- endif %}
 {%- elif salt['grains.get']('os') == "Debian" %}
     {%- set phpng_version = salt['pillar.get']('php:ng:version', '7.0')|string %}
+    {%- if phpng_version|string == '5' %}
+      {%- set confdir = '/etc/php5' %}
+    {%- else %}
+      {%- set confdir = '/etc/php/' + phpng_version %}
+    {%- endif %}
     {%- set php = salt['pillar.get']('php:ng', {
     'lookup': salt['grains.filter_by']({
                     'Debian': {
@@ -1459,6 +1468,7 @@
                             'suhosin5_repo': 'https://github.com/sektioneins/suhosin',
                             'suhosin7_ext': 'suhosin7.so',
                             'suhosin7_repo': 'https://github.com/sektioneins/suhosin7',
+                            'sybase': 'php' + phpng_version + '-sybase',
                             'tcpdf': 'php-tcpdf',
                             'temp_dir': '/tmp',
                             'tidy': 'php' + phpng_version + '-tidy',
@@ -1468,16 +1478,16 @@
                             'zip': 'php' + phpng_version + '-zip',
                         },
                         'fpm': {
-                            'conf': '/etc/php/' + phpng_version + '/fpm/php-fpm.conf',
-                            'ini': '/etc/php/' + phpng_version + '/fpm/php.ini',
-                            'pools': '/etc/php/' + phpng_version + '/fpm/pool.d',
+                            'conf': confdir + '/fpm/php-fpm.conf',
+                            'ini': confdir + '/fpm/php.ini',
+                            'pools': confdir +  '/fpm/pool.d',
                             'service': 'php' + phpng_version + '-fpm',
                             'defaults': odict([
                                 ('global', odict([
                                     ('pid', '/var/run/php' + phpng_version + '-fpm.pid'),
                                     ('error_log', '/var/log/php' + phpng_version + '-fpm.log'),
                                 ])),
-                                ('include', '/etc/php/' + phpng_version + '/fpm/pool.d/*.conf'),
+                                ('include', confdir + '/fpm/pool.d/*.conf'),
                             ]),
                         },
                         'hhvm': {
@@ -1505,10 +1515,10 @@
                             ]),
                         },
                         'cli': {
-                            'ini': '/etc/php/' + phpng_version + '/cli/php.ini',
+                            'ini': confdir + '/cli/php.ini',
                         },
                         'apache2': {
-                            'ini': '/etc/php/' + phpng_version + '/apache2/php.ini',
+                            'ini': confdir + '/apache2/php.ini',
                         },
                     },
                 }),
@@ -1781,9 +1791,11 @@
                     'suhosin7_ext': 'suhosin7.so',
                     'suhosin7_repo': 'https://github.com/sektioneins/suhosin7',
                     'svn': 'php5-svn',
+                    'sybase': 'php5-sybase',
                     'tcpdf': 'php-tcpdf',
                     'temp_dir': '/tmp',
                     'tidy': 'php5-tidy',
+                    'uuid': 'php-uuid',
                     'xcache': 'php5-xcache',
                     'xdebug': 'php5-xdebug',
                     'xml': 'php5',
@@ -1859,6 +1871,7 @@
                     'geoip': 'php-pecl-geoip',
                     'geshi': 'php-geshi',
                     'gettext': 'php-php-gettext',
+                    'http': 'php-pecl-http',
                     'imagick': 'php-pecl-imagick',
                     'imap': 'php-imap',
                     'intl': 'php-intl',
@@ -1891,6 +1904,7 @@
                     'tcpdf': 'php-tcpdf',
                     'temp_dir': '/tmp',
                     'tidy': 'php-tidy',
+                    'uuid': 'php-pecl-uuid',
                     'xcache': 'php-xcache',
                     'xdebug': 'php-pecl-xdebug',
                     'xml': 'php-xml',
