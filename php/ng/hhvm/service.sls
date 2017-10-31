@@ -9,11 +9,11 @@ include:
 
 php_hhvm_service:
   service.{{ service_function }}:
-  {{ sls_block(php.hhvm.service.opts) }}
-  - name: {{ php.lookup.hhvm.service }}
-  - enable: {{ php.hhvm.service.enabled }}
-  - require:
-    - sls: php.ng.hhvm.install
-  - watch:
-    - pkg: php_install_hhvm 
+    {{ sls_block(php.hhvm.service.opts) }}
+    - name: {{ php.lookup.hhvm.service }}
+    - enable: {{ php.hhvm.service.enabled }}
+    - require:
+      - sls: php.ng.hhvm.install
+    - watch:
+      - pkg: php_install_hhvm 
 
